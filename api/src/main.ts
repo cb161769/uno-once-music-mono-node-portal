@@ -5,6 +5,7 @@ import { GenericPipe } from './modules/common/pipes/generic.pipe';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import { ExceptionsFilter } from './modules/common/filters/exeption.filter';
+import { ResponseInterceptor } from './modules/common/interceptors/response.interceptors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
@@ -13,6 +14,7 @@ async function bootstrap() {
     defaultVersion: 'v1',
   });
   app.useGlobalFilters(new ExceptionsFilter());
+  app.useGlobalInterceptors(new ResponseInterceptor());
   const configService = app.get(ConfigService);
   const appProt = configService.get<number>('PORT');
   app.enableCors({
