@@ -4,6 +4,7 @@ import { VersioningType } from '@nestjs/common';
 import { GenericPipe } from './modules/common/pipes/generic.pipe';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
+import { ExceptionsFilter } from './modules/common/filters/exeption.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
@@ -11,6 +12,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: 'v1',
   });
+  app.useGlobalFilters(new ExceptionsFilter());
   const configService = app.get(ConfigService);
   const appProt = configService.get<number>('PORT');
   app.enableCors({
