@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import { ExceptionsFilter } from './modules/common/filters/exeption.filter';
 import { ResponseInterceptor } from './modules/common/interceptors/response.interceptors';
+import { setupSwagger } from './modules/common/swagger/swagger.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
@@ -24,7 +25,10 @@ async function bootstrap() {
     preflightContinue: false,
   });
   app.useGlobalPipes(new GenericPipe());
-
+  const enableDoc = configService.get<boolean>('ENABLE_DOCUMENTATION');
+  if (enableDoc) {
+    setupSwagger(app);
+  }
   app.use(helmet());
   await app.listen(appProt);
 }
