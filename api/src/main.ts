@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 import { GenericPipe } from './modules/common/pipes/generic.pipe';
@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import { ExceptionsFilter } from './modules/common/filters/exeption.filter';
 import { ResponseInterceptor } from './modules/common/interceptors/response.interceptors';
 import { setupSwagger } from './modules/common/swagger/swagger.module';
+import { JwtAuthGuard } from './modules/auth/guards/auth.guards';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
@@ -25,6 +26,8 @@ async function bootstrap() {
     preflightContinue: false,
   });
   app.useGlobalPipes(new GenericPipe());
+
+  app.useGlobalGuards(new JwtAuthGuard(new Reflector()));
   const enableDoc = configService.get<boolean>('ENABLE_DOCUMENTATION');
   if (enableDoc) {
     setupSwagger(app);
