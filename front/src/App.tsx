@@ -5,11 +5,13 @@ import MobileMenu from "./components/MobileMenu";
 function App() {
   return (
     <BrowserRouter>
-      <MobileMenu />
       <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
+      <main className=" w-screen overflow-x-hidden">
+        <MobileMenu />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </main>
     </BrowserRouter>
   );
 }
