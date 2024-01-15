@@ -66,8 +66,8 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        " flex flex-col items-center transition-all duration-500 text-sm",
-        isClosed ? "w-[50px] m-3 mt-10" : "w-[200px] m-5 mt-10 "
+        " flex flex-col items-center transition-all duration-500 text-sm h-screen",
+        isClosed ? "w-[65px] p-3 pt-10" : "w-[230px] p-5 pt-10 "
       )}
     >
       {isClosed ? (
@@ -147,7 +147,7 @@ const CreateNew = ({ isClosed }: { isClosed: boolean }) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="mt-5">
-          <Button className=" w-full">
+          <Button className=" w-full px-0">
             <IconCirclePlus />
             {!isClosed && <span className="ml-2">Create new</span>}
           </Button>
