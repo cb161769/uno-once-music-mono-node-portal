@@ -10,7 +10,7 @@ const SignupPage = () => {
       <h1 className="text-4xl font-semibold bg-gradient-to-br from-secondary to-primary bg-clip-text text-transparent">
         Signup
       </h1>
-      <p className=" mt-3">Please Sign up and use Out powerfull app</p>
+      <p className=" mt-3">Please sign up and use our powerfull app</p>
       <Input className=" mt-5" type="text" placeholder="Full Name" />
       <Input className=" mt-3" type="email" placeholder="Email" />
       <Input className=" mt-3" type="password" placeholder="Password" />

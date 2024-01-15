@@ -18,6 +18,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        gray: "#0c0d0f",
+        gray100: "#111214",
+        gray200: "#18191b",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -75,7 +78,7 @@ module.exports = {
         sans: ["Rubik", "sans-serif"],
       },
       dropShadow: {
-        "btn": "0px 0px 9px rgba(253, 152, 0, 0.22)",
+        btn: "0px 0px 9px rgba(253, 152, 0, 0.22)",
         "3xl": "0 35px 35px rgba(0, 0, 0, 0.25)",
         "4xl": [
           "0 35px 35px rgba(0, 0, 0, 0.25)",
