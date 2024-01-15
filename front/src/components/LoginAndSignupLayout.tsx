@@ -1,5 +1,5 @@
-import IsoTipo from "../../../assets/isotipo.svg";
-import ImageLogin from "../../../assets/bg-login.png";
+import IsoTipo from "../assets/isotipo.svg";
+import ImageLogin from "../assets/bg-login.png";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
