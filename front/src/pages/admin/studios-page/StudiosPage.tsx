@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const StudiosPage = () => {
   const [isLoading] = useState(false);
@@ -86,7 +87,9 @@ const StudiosPage = () => {
     <AdminPageLayout>
       <header className="flex justify-between items-center">
         <h1 className="text-2xl">Studios</h1>
-        <Button>Add New</Button>
+        <Button>
+          <Link to={"/add-studio"}>Add New</Link>
+        </Button>
       </header>
       {/* table */}
       <DynamicTablet

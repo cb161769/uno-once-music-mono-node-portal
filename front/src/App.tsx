@@ -15,6 +15,7 @@ import WorkShopsPage from "./pages/admin/workshops-page.tsx/WorkShopsPage";
 import EventsPage from "./pages/admin/events-page/EventsPage";
 import ReservationsPage from "./pages/admin/reservations-page/ReservationsPage";
 import UsersPage from "./pages/admin/users-page/UsersPage";
+import AddStudioPage from "./pages/admin/studios-page/AddStudioPage";
 function App() {
   const [isLogin] = useState(true);
   return (
@@ -27,6 +28,7 @@ function App() {
             <>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/studios" element={<StudiosPage />} />
+              <Route path="/add-studio" element={<AddStudioPage />} />
               <Route path="/memberships" element={<MembershipsPage />} />
               <Route path="/workshops" element={<WorkShopsPage />} />
               <Route path="/events" element={<EventsPage />} />
