@@ -1,36 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import { Button } from "./components/ui/button";
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/public/home-page/HomePage";
+import Header from "./components/Header";
+import MobileMenu from "./components/MobileMenu";
+import LoginPage from "./pages/public/login-page/LoginPage";
+import SignupPage from "./pages/public/signup-page/SignupPage";
+import ForgotPasswordPage from "./pages/public/forgot-password/ForgotPassword";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button onClick={() => setCount((count) => count + 1)}>
-          {" "}
-          count is {count}
-        </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Header />
+      <main className=" w-screen overflow-x-hidden">
+        <MobileMenu />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/log-in" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

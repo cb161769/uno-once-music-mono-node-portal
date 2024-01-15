@@ -1,5 +1,8 @@
-import { registerAs } from '@nestjs/config';
-export default registerAs('database', () => ({
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { config as dotenvConfig } from 'dotenv';
+dotenvConfig();
+
+export const dataSource = {
   type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
@@ -8,12 +11,12 @@ export default registerAs('database', () => ({
   database: process.env.DB_DATABASE,
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
   logging: process.env.DB_LOGGING === 'true',
-  logger: 'advanced-console',
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
   cli: {
     migrationsDir: 'src/migrations',
   },
   autoLoadEntities: true,
-  ssl: process.env.DB_USE_SSL === 'true',
-}));
+} as DataSourceOptions;
+
+export default new DataSource(dataSource);
