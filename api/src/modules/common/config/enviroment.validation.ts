@@ -4,7 +4,6 @@ import { Environment } from './enums/enviroments.enums';
 export class EnvironmentVariables {
   @IsEnum(Environment)
   NODE_ENV: Environment;
-
   @IsNumber()
   PORT: number;
   @IsString()
@@ -31,4 +30,20 @@ export class EnvironmentVariables {
   ORIGIN: string;
   @IsString()
   ENABLE_DOCUMENTATION: string;
+  @IsNumber()
+  HTTP_TIMEOUT: number;
+  @IsNumber()
+  HTTP_MAX_REDIRECTS: number;
+  @IsString()
+  PAYPAL_MODE: string;
+  @IsString()
+  PAYPAL_CLIENT_ID: string;
+  @IsString()
+  PAYPAL_CLIENT_SECRET: string;
+  @IsString()
+  PAYPAL_LIVE_URL: string;
+  @IsString()
+  PAYPAL_API_VERSION:string;
+  @IsString()
+  PAYPAL_SANDBOX_URL: string;
 }
