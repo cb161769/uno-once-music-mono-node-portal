@@ -17,6 +17,8 @@ export const dataSource = {
     migrationsDir: 'src/migrations',
   },
   autoLoadEntities: true,
+  ssl: process.env.DB_USE_SSL === 'true',
+  migrationsTableName: 'migrations',
 } as DataSourceOptions;
 
 export default new DataSource(dataSource);

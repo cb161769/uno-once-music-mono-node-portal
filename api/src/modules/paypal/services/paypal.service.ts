@@ -13,7 +13,7 @@ import { ClientTokenResponse } from '../dto/client.token.response.dto';
 import { AxiosResponse } from '@nestjs/terminus/dist/health-indicator/http/axios.interfaces';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/modules/user/models/user.entity';
+import { UserEntity } from 'src/modules/users/models/user.entity';
 @Injectable()
 export class PaypalService {
   private readonly logger = new Logger(PaypalService.name);
@@ -24,7 +24,7 @@ export class PaypalService {
   constructor(
     private readonly http: HttpService,
     private readonly config: ConfigService,
-    @InjectRepository(User) private readonly repository: Repository<User>,
+    @InjectRepository(UserEntity) private readonly repository: Repository<UserEntity>,
   ) {
     this.baseUrl =
       this.config.get<string>('paypal.mode') == 'live'
