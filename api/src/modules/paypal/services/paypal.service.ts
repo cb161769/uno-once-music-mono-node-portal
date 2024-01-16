@@ -85,7 +85,7 @@ export class PaypalService {
             Authorization: `Bearer ${clientSecret.access_token}`,
           },
           data: {
-            customer_id: clientId,
+            customer_id: new Date().getTime(),
           },
         });
         const evaluation = this.evaluateResponse(url, request).data;
