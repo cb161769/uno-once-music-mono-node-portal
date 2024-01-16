@@ -130,7 +130,7 @@ export class PaypalService {
       const u = await this.repository.findOneBy({
         id: clientId,
       });
-      if (!!u) {
+      if (!u) {
         this.logger.warn(`usuario con id= ${clientId} no encontrado`);
         throw new NotFoundException();
       }
