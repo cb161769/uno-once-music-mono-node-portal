@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -38,7 +39,7 @@ export class DecodeService {
         throw new UnauthorizedException();
       }
     } catch (error) {
-      throw new HttpException(error.message, 311);
+      throw new InternalServerErrorException(error);
     }
   }
   public generateToken(user: User): string {

@@ -6,8 +6,6 @@ import {
   Entity,
   JoinTable,
   ManyToOne,
-  OneToMany,
-  OneToOne,
 } from 'typeorm';
 
 @Entity({ name: 'user-memberships' })
