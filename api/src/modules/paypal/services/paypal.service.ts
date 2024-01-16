@@ -16,6 +16,7 @@ export class PaypalService {
   private baseUrl: string;
   private client_id: string;
   private client_secret: string;
+  private api_version: string;
   constructor(
     private readonly http: HttpService,
     private readonly config: ConfigService,
@@ -23,27 +24,30 @@ export class PaypalService {
     this.baseUrl =
       this.config.get<string>('paypal.mode') == 'live'
         ? this.config.get<string>('paypal.live_url')
-        : this.config.get<string>('paypal.live_url');
+        : this.config.get<string>('paypal.sandbox_url');
     this.client_id = this.config.get('paypal.client_id');
     this.client_secret = this.config.get('paypal.client_secret');
+    this.api_version = this.config.get('paypal.api_version');
   }
   private async getAccessToken(): Promise<AccesTokenResponse> {
     try {
       this.logger.log('iniciando proceso de obtener token de paypal');
-      const api_version = this.config.get('paypal.api_version');
-      const url = this.baseUrl.concat(`/${api_version}/oauth2/token`);
-      const clientIdAndSecret = `${this.client_id}:${this.client_secret}`;
-      const base64 = Buffer.from(clientIdAndSecret).toString('base64');
+      const url = this.baseUrl.concat(`/${this.api_version}/oauth2/token`);
       const request = await this.http.axiosRef.request<AccesTokenResponse>({
         method: 'POST',
         baseURL: url,
         headers: {
-          'Content-Type': 'application/json',
           Accept: 'application/json',
           'Accept-Language': 'en_US',
-          Authorization: `Basic ${base64}`,
+          'content-type': 'application/x-www-form-urlencoded',
         },
-        data: 'grant_type=client_credentials',
+        auth: {
+          username: this.client_id,
+          password: this.client_secret,
+        },
+        params: {
+          grant_type: 'client_credentials',
+        },
       });
       return this.evaluateResponse(url, request).data;
     } catch (error) {
