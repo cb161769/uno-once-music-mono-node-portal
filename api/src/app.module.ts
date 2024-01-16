@@ -8,12 +8,13 @@ import { UserModule } from './modules/users/user.module';
 import { UserMembershipModule } from './modules/user-memberships/user-membership.module';
 import { MembershipModule } from './modules/memberships/membership.module';
 import { PaypalPaymentsModule } from './modules/paypal/paypal.module';
+import paypalConfig from './modules/paypal/config/paypal.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig],
+      load: [databaseConfig, authConfig, paypalConfig],
       cache: true,
       validate,
       envFilePath: '.env',
@@ -22,7 +23,7 @@ import { PaypalPaymentsModule } from './modules/paypal/paypal.module';
     UserModule,
     UserMembershipModule,
     MembershipModule,
-    PaypalPaymentsModule
+    PaypalPaymentsModule,
   ],
   controllers: [],
   providers: [],

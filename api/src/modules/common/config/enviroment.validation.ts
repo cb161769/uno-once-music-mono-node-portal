@@ -23,6 +23,8 @@ export class EnvironmentVariables {
   @IsString()
   DB_LOGGING: string;
   @IsString()
+  DB_USE_SSL: string;
+  @IsString()
   AUTH_SECRET: string;
   @IsString()
   JWT_EXPIRATION_TIME: string;
