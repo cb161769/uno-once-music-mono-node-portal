@@ -5,11 +5,15 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AccesTokenResponse } from '../dto/acces.token.response.dto';
 import { ClientTokenResponse } from '../dto/client.token.response.dto';
 import { AxiosResponse } from '@nestjs/terminus/dist/health-indicator/http/axios.interfaces';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from 'src/modules/user/models/user.entity';
 @Injectable()
 export class PaypalService {
   private readonly logger = new Logger(PaypalService.name);
@@ -20,6 +24,7 @@ export class PaypalService {
   constructor(
     private readonly http: HttpService,
     private readonly config: ConfigService,
+    @InjectRepository(User) private readonly repository: Repository<User>,
   ) {
     this.baseUrl =
       this.config.get<string>('paypal.mode') == 'live'
@@ -49,7 +54,8 @@ export class PaypalService {
           grant_type: 'client_credentials',
         },
       });
-      return this.evaluateResponse(url, request).data;
+      const e = this.evaluateResponse(url, request);
+      return e.data;
     } catch (error) {
       this.logger.fatal(
         `ocurrio un error interno al momento de obtener token de paypal`,
@@ -60,28 +66,32 @@ export class PaypalService {
   }
   public async getClientToken(clientId: string): Promise<ClientTokenResponse> {
     try {
-      this.logger.log(
-        'iniciando proceso de obtener el token de cliente desde paypal',
-      );
-      const api_version = this.config.get('paypal.api_version');
-      const url = this.baseUrl.concat(
-        `/${api_version}/identity/generate-token`,
-      );
-      const clientSecret = await this.getAccessToken();
-      const request = await this.http.axiosRef.request<ClientTokenResponse>({
-        method: 'POST',
-        baseURL: url,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          'Accept-Language': 'en_US',
-          Authorization: `Bearer ${clientSecret.access_token}`,
-        },
-        data: {
-          customer_id: clientId,
-        },
-      });
-      return this.evaluateResponse(url, request).data;
+      if ((await this.clientExists(clientId)) == true) {
+        this.logger.log(
+          'iniciando proceso de obtener el token de cliente desde paypal',
+        );
+        const api_version = this.config.get('paypal.api_version');
+        const url = this.baseUrl.concat(
+          `/${api_version}/identity/generate-token`,
+        );
+        const clientSecret = await this.getAccessToken();
+        const request = await this.http.axiosRef.request<ClientTokenResponse>({
+          method: 'POST',
+          baseURL: url,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Accept-Language': 'en_US',
+            Authorization: `Bearer ${clientSecret.access_token}`,
+          },
+          data: {
+            customer_id: clientId,
+          },
+        });
+        const evaluation = this.evaluateResponse(url, request).data;
+
+        return evaluation;
+      }
     } catch (error) {
       this.logger.fatal(
         `ocurrio un error interno al momento de obtener token de cliente desde payload`,
@@ -98,7 +108,7 @@ export class PaypalService {
       this.logger.log(`evaluando respuesta desde la url= ${url}`);
       if (request.status == HttpStatus.OK) {
         this.logger.log('obtenido respuesta de paypal de manera satisfactoria');
-        return request.data;
+        return request;
       } else {
         this.logger.error(
           'ocurrio un error interno al evaluar respuesta desde endpoint',
@@ -111,6 +121,28 @@ export class PaypalService {
       this.logger.fatal(
         `ocurrio un error interno al momento de evaluar repuesta de paypal`,
         error['message'],
+      );
+      throw new InternalServerErrorException(error);
+    }
+  }
+  public async clientExists(clientId: string): Promise<boolean> {
+    try {
+      const u = await this.repository.findOneBy({
+        id: clientId,
+      });
+      if (!!u) {
+        this.logger.warn(`usuario con id= ${clientId} no encontrado`);
+        throw new NotFoundException();
+      }
+      this.logger.log(
+        `usuario con Id ${clientId} encontrado, proceder a generar token`,
+      );
+      return true;
+    } catch (error) {
+      this.logger.error(
+        'ocurrio un error interno al buscar si existe el cliente =',
+        clientId,
+        error,
       );
       throw new InternalServerErrorException(error);
     }

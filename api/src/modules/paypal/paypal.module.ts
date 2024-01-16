@@ -4,8 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from '../common/common.module';
 import { PaypalController } from './controllers/paypal.controller';
 import { PaypalAuthController } from './controllers/paypal.auth.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../user/models/user.entity';
 @Module({
-  imports: [CommonModule, ConfigModule],
+  imports: [CommonModule, ConfigModule, TypeOrmModule.forFeature([User])],
   providers: [PaypalService, ConfigService],
   controllers: [PaypalController, PaypalAuthController],
 })
