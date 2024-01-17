@@ -1,6 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { GenericPipe } from './modules/common/pipes/generic.pipe';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
@@ -15,7 +15,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: 'v1',
   });
-  app.useGlobalFilters(new ExceptionsFilter());
+  // app.useGlobalFilters(new ExceptionsFilter());
   app.useGlobalInterceptors(new ResponseInterceptor());
   const configService = app.get(ConfigService);
   const appProt = configService.get<number>('PORT');
@@ -25,9 +25,9 @@ async function bootstrap() {
     credentials: true,
     preflightContinue: false,
   });
-  app.useGlobalPipes(new GenericPipe());
+  // app.useGlobalPipes(new GenericPipe());
+  app.useGlobalPipes(new ValidationPipe());
 
-  app.useGlobalGuards(new JwtAuthGuard(new Reflector()));
   const enableDoc = configService.get<boolean>('ENABLE_DOCUMENTATION');
   if (enableDoc) {
     setupSwagger(app);

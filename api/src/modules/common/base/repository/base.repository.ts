@@ -21,6 +21,7 @@ export default abstract class BaseRepository<T extends BaseModel>
   }
 
   create(data: T): Promise<T> {
+    data.createdAt = new Date();
     return this._repository.save(data);
   }
 

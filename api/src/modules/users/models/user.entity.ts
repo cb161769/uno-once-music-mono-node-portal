@@ -13,14 +13,13 @@ export class UserEntity extends BaseModel {
   email: string;
   @Column({ nullable: true, length: 255 })
   bio: string | null;
-  @Column({ length: 20, unique: true })
-  username: string;
+  @Column()
   password: string;
   @Column({ nullable: true })
   passwordToken: string;
-  @Column()
+  @Column({ default: false })
   isAdmin: boolean;
-  @Column()
+  @Column({ default: 0 })
   status: UserStatus;
   @OneToMany(() => UserMembershipEntity, (um) => um.user)
   @JoinTable()
@@ -32,4 +31,10 @@ export class UserEntity extends BaseModel {
   @OneToMany(() => ReservationEntity, (r) => r.user)
   @JoinTable()
   reservations: ReservationEntity[];
+
+  @Column({ nullable: true })
+  lastLoginAt: Date;
+
+  @Column({ default: false })
+  isVerified: boolean;
 }

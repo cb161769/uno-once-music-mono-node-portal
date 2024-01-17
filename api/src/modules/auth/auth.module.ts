@@ -3,11 +3,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../user/models/user.entity';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { DecodeService } from './services/decode.service';
 import { JwtstrategyService } from './services/jwt-strategy.service';
+import { UserEntity } from '../users/models/user.entity';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { JwtstrategyService } from './services/jwt-strategy.service';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([UserEntity]),
   ],
   controllers: [AuthController],
   providers: [AuthService, DecodeService, JwtstrategyService],
