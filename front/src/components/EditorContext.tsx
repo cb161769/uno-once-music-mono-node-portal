@@ -1,4 +1,4 @@
-import { createContext, useRef, ReactNode, FC } from "react";
+import { createContext, useRef, ReactNode, FC, useState } from "react";
 import EditorJS, { EditorConfig } from "@editorjs/editorjs";
 
 interface EditorContextProps {
@@ -7,13 +7,21 @@ interface EditorContextProps {
 
 interface EditorContextValue {
   initEditor: () => void;
-  editorInstanceRef: React.MutableRefObject<EditorJS | null>;
+  editorInstanceRef: React.MutableRefObject<EditorJS | null> | null;
+  isLogin: boolean;
+  setIsLogin(value: boolean): void;
 }
 
-export const EditorContext = createContext<EditorContextValue | null>(null);
+export const EditorContext = createContext<EditorContextValue>({
+  initEditor: () => {},
+  editorInstanceRef: null,
+  isLogin: false,
+  setIsLogin: () => {},
+});
 
 const EditorContextProvider: FC<EditorContextProps> = ({ children }) => {
   const editorInstanceRef = useRef<EditorJS | null>(null);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const initEditor = () => {
     const editorConfig: EditorConfig = {
@@ -26,13 +34,15 @@ const EditorContextProvider: FC<EditorContextProps> = ({ children }) => {
     editorInstanceRef.current = editor;
   };
 
-  const contextValue: EditorContextValue = {
-    initEditor,
-    editorInstanceRef,
-  };
-
   return (
-    <EditorContext.Provider value={contextValue}>
+    <EditorContext.Provider
+      value={{
+        initEditor,
+        editorInstanceRef,
+        isLogin,
+        setIsLogin,
+      }}
+    >
       {children}
     </EditorContext.Provider>
   );
