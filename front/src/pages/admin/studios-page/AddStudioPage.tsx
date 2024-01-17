@@ -8,7 +8,7 @@ import { EditorContext } from "@/components/EditorContext";
 
 const AddStudioPage = () => {
   const { initEditor } = useContext(EditorContext);
-  const editorRef = useRef(null);
+  const editorRef = useRef<boolean>(false);
   useEffect(() => {
     if (!editorRef.current) {
       initEditor();

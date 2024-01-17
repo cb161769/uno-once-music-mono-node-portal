@@ -3,8 +3,11 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import LoginAndSignupLayout from "@/components/LoginAndSignupLayout";
+import { useContext } from "react";
+import { EditorContext } from "@/components/EditorContext";
 
 const LoginPage = () => {
+  const { setIsLogin } = useContext(EditorContext);
   return (
     <LoginAndSignupLayout>
       <h1 className="text-4xl font-semibold bg-gradient-to-br from-secondary to-primary bg-clip-text text-transparent">
@@ -19,7 +22,9 @@ const LoginPage = () => {
       >
         Forgot Password
       </Link>
-      <Button className=" mt-5 w-full">Login</Button>
+      <Button onClick={() => setIsLogin(true)} className=" mt-5 w-full">
+        Login
+      </Button>
       <div className="flex items-center gap-x-4 my-3">
         <hr className=" w-full h-[1px] border-gray-900" />
         <span className="text-xs">Or</span>
