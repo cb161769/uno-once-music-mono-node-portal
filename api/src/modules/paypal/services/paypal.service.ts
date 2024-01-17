@@ -8,19 +8,20 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AccesTokenResponse } from '../dto/acces.token.response.dto';
-import { ClientTokenResponse } from '../dto/client.token.response.dto';
+import { AccesTokenResponse } from '../dto/responses/acces.token.response.dto';
+import { ClientTokenResponse } from '../dto/responses/client.token.response.dto';
 import { AxiosResponse } from '@nestjs/terminus/dist/health-indicator/http/axios.interfaces';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'src/modules/users/models/user.entity';
+import { evaluateResponse } from '../utils/response.evaluation.util';
 @Injectable()
 export class PaypalService {
   private readonly logger = new Logger(PaypalService.name);
-  private baseUrl: string;
-  private client_id: string;
-  private client_secret: string;
-  private api_version: string;
+  protected baseUrl: string;
+  protected client_id: string;
+  protected client_secret: string;
+  protected api_version: string;
   constructor(
     private readonly http: HttpService,
     private readonly config: ConfigService,
@@ -34,7 +35,7 @@ export class PaypalService {
     this.client_secret = this.config.get('paypal.client_secret');
     this.api_version = this.config.get('paypal.api_version');
   }
-  private async getAccessToken(): Promise<AccesTokenResponse> {
+  protected async getAccessToken(): Promise<AccesTokenResponse> {
     try {
       this.logger.log('iniciando proceso de obtener token de paypal');
       const url = this.baseUrl.concat(`/${this.api_version}/oauth2/token`);
@@ -54,7 +55,7 @@ export class PaypalService {
           grant_type: 'client_credentials',
         },
       });
-      const e = this.evaluateResponse(url, request);
+      const e = evaluateResponse(url, request);
       return e.data;
     } catch (error) {
       this.logger.fatal(
@@ -88,7 +89,7 @@ export class PaypalService {
             customer_id: new Date().getTime(),
           },
         });
-        const evaluation = this.evaluateResponse(url, request).data;
+        const evaluation = evaluateResponse(url, request).data;
 
         return evaluation;
       }
@@ -100,31 +101,7 @@ export class PaypalService {
       throw new InternalServerErrorException(error);
     }
   }
-  private evaluateResponse(
-    url: string,
-    request: AxiosResponse<any>,
-  ): AxiosResponse<any> {
-    try {
-      this.logger.log(`evaluando respuesta desde la url= ${url}`);
-      if (request.status == HttpStatus.OK) {
-        this.logger.log('obtenido respuesta de paypal de manera satisfactoria');
-        return request;
-      } else {
-        this.logger.error(
-          'ocurrio un error interno al evaluar respuesta desde endpoint',
-          url,
-          JSON.stringify(request.data),
-        );
-        throw new HttpException(request.data, request.status);
-      }
-    } catch (error) {
-      this.logger.fatal(
-        `ocurrio un error interno al momento de evaluar repuesta de paypal`,
-        error['message'],
-      );
-      throw new InternalServerErrorException(error);
-    }
-  }
+
   public async clientExists(clientId: string): Promise<boolean> {
     try {
       const u = await this.repository.findOneBy({
