@@ -1,4 +1,3 @@
-import { User } from 'src/modules/user/models/user.entity';
 import {
   HttpException,
   HttpStatus,
@@ -10,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserEntity } from 'src/modules/users/models/user.entity';
 @Injectable()
 export class DecodeService {
   /**
@@ -17,7 +17,8 @@ export class DecodeService {
    */
   constructor(
     private readonly jwt: JwtService,
-    @InjectRepository(User) private readonly repository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>,
   ) {}
   public async deconde(token: string): Promise<any> {
     try {
@@ -30,7 +31,7 @@ export class DecodeService {
     try {
       const u = await this.repository.findOneBy({
         id: decoded.id,
-        status: true,
+        isDeleted: false,
         isVerified: true,
       });
       if (!!u) {
@@ -42,7 +43,7 @@ export class DecodeService {
       throw new InternalServerErrorException(error);
     }
   }
-  public generateToken(user: User): string {
+  public generateToken(user: UserEntity): string {
     return this.jwt.sign({ id: user.id, email: user.email });
   }
   public isPasswordValid(password: string, userPassword: string): boolean {

@@ -5,39 +5,49 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/modules/user/models/user.entity';
 import { Repository } from 'typeorm';
-import { RegisterDto } from '../dto/auth.dto';
+import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
 import { DecodeService } from './decode.service';
+import BaseRepository from 'src/modules/common/base/repository/base.repository';
+import { UserEntity } from 'src/modules/users/models/user.entity';
+import { UserStatus } from 'src/modules/users/enums/user-status.enum';
 
 @Injectable()
-export class AuthService {
+export class AuthService extends BaseRepository<UserEntity> {
   /**
    *
    */
   constructor(
-    @InjectRepository(User) private readonly repository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>,
     private readonly helper: DecodeService,
-  ) {}
-  public async register(body: RegisterDto): Promise<User> {
-    try {
-      const u = await this.repository.findOneBy({ email: body.email });
-      if (!!u) {
-        throw new HttpException('usuario existente', HttpStatus.CONFLICT);
-      } else {
+  ) {
+    super(repository);
+  }
+  public async register(body: RegisterDto): Promise<UserEntity> {
+    const u = await this.repository.findOneBy({ email: body.email });
+    if (u) {
+      throw new HttpException('usuario existente', HttpStatus.CONFLICT);
+    } else {
+      try {
         body.password = this.helper.encodePassword(body.password);
-        return this.repository.save(body);
+
+        const data = body as UserEntity;
+        data.isAdmin = false;
+        data.status = UserStatus.Active;
+
+        return this.create(data);
+      } catch (error) {
+        throw new HttpException(error.message, 320);
       }
-    } catch (error) {
-      throw new HttpException(error.message, 320);
     }
   }
   public async login(body: LoginDto): Promise<string> {
     try {
       const u = await this.repository.findOneBy({
         email: body.email,
-        status: true,
+        isDeleted: false,
       });
       if (!u) {
         throw new NotFoundException();
@@ -55,7 +65,7 @@ export class AuthService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
-  public async refresh(user: User): Promise<string> {
+  public async refresh(user: UserEntity): Promise<string> {
     this.repository.update(user.id, { lastLoginAt: new Date() });
 
     return this.helper.generateToken(user);

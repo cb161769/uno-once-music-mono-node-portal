@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Trim } from 'class-sanitizer';
 import {
   IsEmail,
@@ -8,6 +9,7 @@ import {
 export class RegisterDto {
   @Trim()
   @IsEmail()
+  @ApiProperty()
   public readonly email: string;
 
   @IsString()
@@ -18,9 +20,10 @@ export class RegisterDto {
     minLowercase: 2,
     minUppercase: 1,
   })
+  @ApiProperty()
   public password: string;
 
   @IsString()
-  @IsOptional()
-  public readonly name?: string;
+  @ApiProperty()
+  public readonly fullName: string;
 }
