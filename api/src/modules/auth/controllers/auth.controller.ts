@@ -1,15 +1,6 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Post,
-  Req,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { RegisterDto } from '../dto/auth.dto';
-import { User } from 'src/modules/user/models/user.entity';
+import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
 import { JwtAuthGuard } from '../guards/auth.guards';
 import { UserEntity } from 'src/modules/users/models/user.entity';
@@ -20,7 +11,6 @@ import { UserEntity } from 'src/modules/users/models/user.entity';
 export class AuthController {
   constructor(private readonly service: AuthService) {}
   @Post('/register')
-  @UseInterceptors(ClassSerializerInterceptor)
   private register(@Body() body: RegisterDto): Promise<UserEntity> {
     return this.service.register(body);
   }

@@ -32,6 +32,7 @@ export class DecodeService {
       const u = await this.repository.findOneBy({
         id: decoded.id,
         isDeleted: false,
+        isVerified: true,
       });
       if (!!u) {
         return true;

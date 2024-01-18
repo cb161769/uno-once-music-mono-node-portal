@@ -5,7 +5,7 @@ import MobileMenu from "./components/MobileMenu";
 import LoginPage from "./pages/public/login-page/LoginPage";
 import SignupPage from "./pages/public/signup-page/SignupPage";
 import ForgotPasswordPage from "./pages/public/forgot-password/ForgotPassword";
-import { useState } from "react";
+import { useContext } from "react";
 import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 import Sidebar from "./components/Sidebar";
 import { cn } from "./lib/utils";
@@ -16,8 +16,10 @@ import EventsPage from "./pages/admin/events-page/EventsPage";
 import ReservationsPage from "./pages/admin/reservations-page/ReservationsPage";
 import UsersPage from "./pages/admin/users-page/UsersPage";
 import AddStudioPage from "./pages/admin/studios-page/AddStudioPage";
+import { EditorContext } from "./components/EditorContext";
 function App() {
-  const [isLogin] = useState(true);
+  const { isLogin } = useContext(EditorContext);
+
   return (
     <BrowserRouter>
       {!isLogin && <Header />}
