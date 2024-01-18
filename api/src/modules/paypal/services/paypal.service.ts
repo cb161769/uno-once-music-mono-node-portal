@@ -18,10 +18,10 @@ import { evaluateResponse } from '../utils/response.evaluation.util';
 @Injectable()
 export class PaypalService {
   private readonly logger = new Logger(PaypalService.name);
-  protected baseUrl: string;
+  public baseUrl: string;
   protected client_id: string;
   protected client_secret: string;
-  protected api_version: string;
+  public api_version: string;
   constructor(
     private readonly http: HttpService,
     private readonly config: ConfigService,
@@ -35,7 +35,7 @@ export class PaypalService {
     this.client_secret = this.config.get('paypal.client_secret');
     this.api_version = this.config.get('paypal.api_version');
   }
-  protected async getAccessToken(): Promise<AccesTokenResponse> {
+  public async getAccessToken(): Promise<AccesTokenResponse> {
     try {
       this.logger.log('iniciando proceso de obtener token de paypal');
       const url = this.baseUrl.concat(`/${this.api_version}/oauth2/token`);

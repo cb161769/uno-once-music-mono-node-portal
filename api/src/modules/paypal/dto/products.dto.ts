@@ -1,6 +1,6 @@
 import { IsString, IsUUID, Min, MinLength } from "class-validator";
 
-export class ProductsDto {
+export class CreateProductsDto {
   @IsString()
   @MinLength(1)
   name: string;

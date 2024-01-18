@@ -1,10 +1,10 @@
-interface RootObject {
+export class CreateProductsResponseDto {
   id: string;
   name: string;
   create_time: string;
   links: Link[];
 }
-interface Link {
+export class Link {
   href: string;
   rel: string;
   method: string;
