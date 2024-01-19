@@ -4,6 +4,7 @@ import {
   IconCalendarEvent,
   IconChevronRight,
   IconCirclePlus,
+  IconInfoOctagon,
   IconSchool,
   IconTicket,
   IconUsers,
@@ -31,8 +32,8 @@ const Sidebar = () => {
       icon: <IconLayoutDashboard className="w-5 h-5" />,
     },
     {
-      name: "Studios",
-      href: "/studios",
+      name: "Powerhouses",
+      href: "/powerhouses",
       icon: <IconMusic className="w-5 h-5" />,
     },
     {
@@ -59,6 +60,11 @@ const Sidebar = () => {
       name: "Users",
       href: "/users",
       icon: <IconUsers className="w-5 h-5" />,
+    },
+    {
+      name: "Info Page",
+      href: "/info-page",
+      icon: <IconInfoOctagon className="w-5 h-5" />,
     },
   ];
   const [isClosed, setIsClosed] = useState(false);

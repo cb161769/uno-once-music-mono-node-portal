@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useContext, useEffect, useRef } from "react";
 import { EditorContext } from "@/components/EditorContext";
 
-const AddStudioPage = () => {
+const AddPowerhousesPage = () => {
   const { initEditor } = useContext(EditorContext);
   const editorRef = useRef<boolean>(false);
   useEffect(() => {
@@ -36,4 +36,4 @@ const AddStudioPage = () => {
   );
 };
 
-export default AddStudioPage;
+export default AddPowerhousesPage;
