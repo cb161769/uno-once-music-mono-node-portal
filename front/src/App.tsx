@@ -20,6 +20,7 @@ import InfoPage from "./pages/admin/info-page/InfoPage";
 import AddPowerhousesPage from "./pages/admin/powerhouses-page/AddPowerhousesPage";
 import InfoPageSection from "./pages/admin/info-page/InfoPageSection";
 import InfoPageSectionEdit from "./pages/admin/info-page/InfoPageSectionEdit";
+import ProfessionalCommunityPage from "./pages/public/professional-community/ProfessionalCommunityPage";
 function App() {
   const { isLogin } = useContext(EditorContext);
 
@@ -52,6 +53,10 @@ function App() {
               <Route path="/log-in" element={<LoginPage />} />
               <Route path="/sign-up" element={<SignupPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route
+                path="/professional-community"
+                element={<ProfessionalCommunityPage />}
+              />
             </>
           )}
         </Routes>

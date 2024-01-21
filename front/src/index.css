@@ -73,4 +73,7 @@
   body {
     @apply bg-gray text-foreground text-white text-[16px];
   }
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
