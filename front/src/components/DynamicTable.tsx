@@ -37,9 +37,15 @@ interface Props {
   tableHeads: ITabletHead[];
   tableBody?: any[];
   isLoading: boolean;
+  placeholder?: string;
 }
 
-const DynamicTablet = ({ tableHeads, tableBody, isLoading }: Props) => {
+const DynamicTablet = ({
+  tableHeads,
+  tableBody,
+  isLoading,
+  placeholder = "Search...",
+}: Props) => {
   /**
    * render a tooltip depend if is function or text
    * @param action
@@ -60,7 +66,7 @@ const DynamicTablet = ({ tableHeads, tableBody, isLoading }: Props) => {
         <Input
           className="max-w-[300px] bg-gray200 placeholder:text-white/30"
           type="text"
-          placeholder="Filtrar Studios..."
+          placeholder={placeholder}
         />
       </div>
       <div className=" relative text-white rounded-xl h-auto min-h-[500px] overflow-x-hidden">

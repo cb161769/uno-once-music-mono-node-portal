@@ -17,6 +17,10 @@ const MobileMenu = () => {
       path: "/professional-community",
     },
     {
+      name: "Artist Development",
+      path: "/artist-development",
+    },
+    {
       name: "About US",
       path: "/about-uS",
     },

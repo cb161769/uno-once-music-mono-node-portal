@@ -6,7 +6,7 @@ import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const StudiosPage = () => {
+const PowerhousesPage = () => {
   const [isLoading] = useState(false);
   //data
   const tableHeads: ITabletHead[] = [
@@ -86,22 +86,23 @@ const StudiosPage = () => {
   return (
     <AdminPageLayout>
       <header className="flex justify-between items-center">
-        <h1 className="text-2xl">Studios</h1>
-        <Button>
-          <Link to={"/add-studio"}>Add New</Link>
-        </Button>
+        <h1 className="text-2xl">Powerhouses</h1>
+        <Link to={"/add-powerhouses"}>
+          <Button>Add New</Button>
+        </Link>
       </header>
       {/* table */}
       <DynamicTablet
         isLoading={isLoading}
         tableHeads={tableHeads}
         tableBody={tableBody}
+        placeholder="Search Powerhouses..."
       />
     </AdminPageLayout>
   );
 };
 
-export default StudiosPage;
+export default PowerhousesPage;
 
 const Status = ({
   status,

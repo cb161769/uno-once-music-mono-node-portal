@@ -9,14 +9,18 @@ import { useContext } from "react";
 import DashboardPage from "./pages/admin/dashboard/DashboardPage";
 import Sidebar from "./components/Sidebar";
 import { cn } from "./lib/utils";
-import StudiosPage from "./pages/admin/studios-page/StudiosPage";
 import MembershipsPage from "./pages/admin/memberships-page/MembershipsPage";
 import WorkShopsPage from "./pages/admin/workshops-page.tsx/WorkShopsPage";
 import EventsPage from "./pages/admin/events-page/EventsPage";
 import ReservationsPage from "./pages/admin/reservations-page/ReservationsPage";
 import UsersPage from "./pages/admin/users-page/UsersPage";
-import AddStudioPage from "./pages/admin/studios-page/AddStudioPage";
 import { EditorContext } from "./components/EditorContext";
+import PowerhousesPage from "./pages/admin/powerhouses-page/Powerhouses";
+import InfoPage from "./pages/admin/info-page/InfoPage";
+import AddPowerhousesPage from "./pages/admin/powerhouses-page/AddPowerhousesPage";
+import InfoPageSection from "./pages/admin/info-page/InfoPageSection";
+import InfoPageSectionEdit from "./pages/admin/info-page/InfoPageSectionEdit";
+import ProfessionalCommunityPage from "./pages/public/professional-community/ProfessionalCommunityPage";
 function App() {
   const { isLogin } = useContext(EditorContext);
 
@@ -29,13 +33,19 @@ function App() {
           {isLogin ? (
             <>
               <Route path="/" element={<DashboardPage />} />
-              <Route path="/studios" element={<StudiosPage />} />
-              <Route path="/add-studio" element={<AddStudioPage />} />
+              <Route path="/powerhouses" element={<PowerhousesPage />} />
+              <Route path="/add-powerhouses" element={<AddPowerhousesPage />} />
               <Route path="/memberships" element={<MembershipsPage />} />
               <Route path="/workshops" element={<WorkShopsPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/reservations" element={<ReservationsPage />} />
               <Route path="/users" element={<UsersPage />} />
+              <Route path="/info-page" element={<InfoPage />} />
+              <Route path="/info-page-section" element={<InfoPageSection />} />
+              <Route
+                path="/info-page-section-edit"
+                element={<InfoPageSectionEdit />}
+              />
             </>
           ) : (
             <>
@@ -43,6 +53,10 @@ function App() {
               <Route path="/log-in" element={<LoginPage />} />
               <Route path="/sign-up" element={<SignupPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route
+                path="/professional-community"
+                element={<ProfessionalCommunityPage />}
+              />
             </>
           )}
         </Routes>
