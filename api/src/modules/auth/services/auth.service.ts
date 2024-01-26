@@ -59,7 +59,7 @@ export class AuthService extends BaseRepository<UserEntity> {
       if (!isPasswordValid) {
         throw new HttpException('contrasena invalida', HttpStatus.FORBIDDEN);
       }
-      this.repository.update(u.id, { lastLoginAt: new Date() });
+      this.repository.update(u.id, { updatedAt: new Date() });
       return this.helper.generateToken(u);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
