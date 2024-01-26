@@ -9,6 +9,12 @@ import { UserMembershipModule } from './modules/user-memberships/user-membership
 import { MembershipModule } from './modules/memberships/membership.module';
 import { PaypalPaymentsModule } from './modules/paypal/paypal.module';
 import paypalConfig from './modules/paypal/config/paypal.config';
+import { UserPermissionModule } from './modules/user-permissions/user-permission.module';
+import { StudyModule } from './modules/Studies/study.module';
+import { ReservationModule } from './modules/reservations/reservation.module';
+import { PostModule } from './modules/post/post.module';
+import { PageModule } from './modules/pages/page.module';
+import { OwnEventModule } from './modules/own-events/own-event.module';
 
 @Module({
   imports: [
@@ -22,7 +28,13 @@ import paypalConfig from './modules/paypal/config/paypal.config';
     CommonModule,
     UserModule,
     UserMembershipModule,
+    UserPermissionModule,
+    StudyModule,
     MembershipModule,
+    ReservationModule,
+    PostModule,
+    PageModule,
+    OwnEventModule,
     PaypalPaymentsModule,
   ],
   controllers: [],
