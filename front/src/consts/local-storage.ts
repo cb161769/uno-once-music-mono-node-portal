@@ -1,0 +1,1 @@
+export const SESSION_LOCAL_STORAGE = "U_S"

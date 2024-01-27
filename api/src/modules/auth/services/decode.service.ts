@@ -43,8 +43,8 @@ export class DecodeService {
       throw new InternalServerErrorException(error);
     }
   }
-  public generateToken(user: UserEntity): string {
-    return this.jwt.sign({ id: user.id, email: user.email });
+  public async generateToken(user: UserEntity) {
+    return this.jwt.signAsync({ id: user.id, email: user.email });
   }
   public isPasswordValid(password: string, userPassword: string): boolean {
     return bcrypt.compareSync(password, userPassword);

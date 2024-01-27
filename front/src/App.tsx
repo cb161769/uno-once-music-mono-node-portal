@@ -14,23 +14,23 @@ import WorkShopsPage from "./pages/admin/workshops-page.tsx/WorkShopsPage";
 import EventsPage from "./pages/admin/events-page/EventsPage";
 import ReservationsPage from "./pages/admin/reservations-page/ReservationsPage";
 import UsersPage from "./pages/admin/users-page/UsersPage";
-import { EditorContext } from "./components/EditorContext";
 import PowerhousesPage from "./pages/admin/powerhouses-page/Powerhouses";
 import InfoPage from "./pages/admin/info-page/InfoPage";
 import AddPowerhousesPage from "./pages/admin/powerhouses-page/AddPowerhousesPage";
 import InfoPageSection from "./pages/admin/info-page/InfoPageSection";
 import InfoPageSectionEdit from "./pages/admin/info-page/InfoPageSectionEdit";
 import ProfessionalCommunityPage from "./pages/public/professional-community/ProfessionalCommunityPage";
+import { AuthContext } from "./store/auth-context/auth.context";
 function App() {
-  const { isLogin } = useContext(EditorContext);
+  const context = useContext(AuthContext);
 
   return (
     <BrowserRouter>
-      {!isLogin && <Header />}
-      <main className={cn("w-screen overflow-x-hidden", isLogin && "flex")}>
-        {isLogin ? <Sidebar /> : <MobileMenu />}
+      {!context.isLogged && <Header />}
+      <main className={cn("w-screen overflow-x-hidden", context.isLogged && "flex")}>
+        {context.isLogged ? <Sidebar /> : <MobileMenu />}
         <Routes>
-          {isLogin ? (
+          {context.isLogged ? (
             <>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/powerhouses" element={<PowerhousesPage />} />

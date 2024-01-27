@@ -25,7 +25,22 @@ const LoginPage = () => {
     try {
       const service = new AuthService();
       const result = await service.login(model);
-      console.log(result);
+
+      const decodedToken = service.decodeToken(result.data.data);
+
+      const data = {
+        isAdmin: false,
+        isLogged: true,
+        token: result.data.data,
+        user: {
+          email: decodedToken.email,
+          id: decodedToken.id,
+        },
+      };
+
+      authContext.setSession(data);
+
+      service.storeSession(data);
     } catch (error) {
       console.log(error);
       alertsHelper.showApiError(error);
